@@ -8,3 +8,7 @@ CPUScheduler::CPUScheduler(vector<int> partitions, int ramSize) {
 int CPUScheduler::getRamSize() const {
     return ramSize;
 }
+
+int CPUScheduler::bestFit(vector<int> processes) {
+    
+}
