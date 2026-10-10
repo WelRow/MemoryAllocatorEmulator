@@ -3,6 +3,7 @@
 using namespace std;
 
 #include <vector>
+#include <iostream>
 
 class CPUScheduler {
 public:
@@ -19,12 +20,6 @@ public:
 private:
     vector<int> ram;
     int ramSize;
-
-
-
-
-
-
 };
 
 #endif
