@@ -9,44 +9,29 @@ int CPUScheduler::getRamSize() const {
     return ramSize;
 }
 
-int CPUScheduler::bestFit(vector<int> processes) {
-    int bestBlock;
-    int diff;
-    int tempDiff;
+int CPUScheduler::firstFit(vector<int> processes) {
+    int firstFit;
     bool found;
 
-    for (int i = 0; i < processes.size(); ++i) {
-        bestBlock = -1;
-        diff = -1;
-        tempDiff = 0;
+    for (int i = 0; i < processes.size(); i++) {
         found = false;
-
-        for (int j = 0; j < this->ram.size(); ++j) {
-            tempDiff = this->ram.at(j) - processes.at(i);
-
-            if (tempDiff < 0) {
-                continue;
-            }
-
-            else if (diff == -1 || tempDiff < diff) {
-                diff = tempDiff;
-                bestBlock = j;
+        for (int j = 0; j < ram.size(); j++) {
+            if (ram[j] >= processes[i]) {
+                firstFit = j;
                 found = true;
-                continue;
-            }  
+                break;
+            }
         }
-
-        // if the process cant find any partition to fit into
-        if (found == false) {
-            cout << "This process with size " << processes.at(i) << " has no space for it in ram." << endl;
+        if (found == true) {
+            ram[firstFit] -= processes[i];
+            cout << "Process " << i << " (size " << processes[i] << "): placed in partition "
+                 << firstFit << endl;
+        } else {
+            cout << "Process " << i << " (size " << processes[i] << "): failed, no partition large enough" << endl;
             return -1;
         }
-
-        // places process in partition
-        this->ram.at(bestBlock) -= processes.at(i);
-        cout << i << "th process is allocated to partition " << bestBlock << "!"<< endl; 
     }
 
-    cout << "Stored all processes in ram!" << endl;
-    return 1;
+    cout << "All Processes allocated with First Fit policy" << endl;
+    return 0;
 }
