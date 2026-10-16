@@ -9,6 +9,39 @@ int CPUScheduler::getRamSize() const {
     return ramSize;
 }
 
+int CPUScheduler::nextFit(vector<int> processes) {
+    int partitionP = 0;
+    int processP = 0;
+    int partitionsChecked = 0;
+
+    while (processP != processes.size()) {
+        
+        if (this->ram.at(partitionP) - processes.at(processP) < 0) {
+            if (partitionsChecked == this->ram.size()) {
+                break;
+            }
+
+            partitionP == this->ram.size() - 1 ? partitionP = 0 : partitionP++;
+
+            partitionsChecked++;
+            continue;
+        }
+
+        cout << processP << "th process is allocated to partition " << partitionP << "!"<< endl;
+        this->ram.at(partitionP++) -= processes.at(processP++);
+        partitionsChecked = 0;
+    }
+
+    if (processP == processes.size()) {
+        cout << "Stored all processes in ram!" << endl;
+        return 1;
+    }
+    
+    cout << "This process with size " << processes.at(processP) << " has no space for it in ram." << endl;
+    return -1;
+    
+}
+
 int CPUScheduler::bestFit(vector<int> processes) {
     int bestBlock;
     int diff;
