@@ -70,7 +70,8 @@ int CPUScheduler::nextFit(vector<int> processes)
         }
 
         cout << processP << "th process is allocated to partition " << partitionP << "!" << endl;
-        this->ram.at(partitionP++) -= processes.at(processP++);
+        this->ram.at(partitionP) -= processes.at(processP++);
+        partitionP == this->ram.size() - 1 ? partitionP = 0 : partitionP++;
         partitionsChecked = 0;
     }
 
@@ -138,6 +139,7 @@ int CPUScheduler::worstFit(vector<int> processes)
     int tempDiff;
     int diff;
     bool found;
+    bool allAllocated = true;
 
     for (int i = 0; i < processes.size(); i++)
     {
@@ -170,10 +172,15 @@ int CPUScheduler::worstFit(vector<int> processes)
         else
         {
             cout << "Process " << i + 1 << " cannot be allocated." << endl;
-            return 0;
+            allAllocated = false;
         }
     }
 
-    cout << "All Processes allocated with Worst Fit policy." << endl;
-    return 1;
+    if (allAllocated)
+    {
+        cout << "All Processes allocated with Worst Fit policy." << endl;
+        return 1;
+    }
+
+    return 0;
 }
