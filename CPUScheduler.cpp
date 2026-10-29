@@ -70,8 +70,7 @@ int CPUScheduler::nextFit(vector<int> processes)
         }
 
         cout << processP << "th process is allocated to partition " << partitionP << "!" << endl;
-        this->ram.at(partitionP) -= processes.at(processP++);
-        partitionP == this->ram.size() - 1 ? partitionP = 0 : partitionP++;
+        this->ram.at(partitionP++) -= processes.at(processP++);
         partitionsChecked = 0;
     }
 
